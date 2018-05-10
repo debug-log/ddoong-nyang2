@@ -27,10 +27,10 @@ diet_info = {
             'width' : 640,
             'height' : 480
         },
-    },
-    'message_button' : {
-        'label' : '4가지 식사원칙',
-        'url' : 'https://m.post.naver.com/viewer/postView.nhn?volumeNo=10196423&memberNo=23778630&navigationType=push'
+        'message_button' : {
+            'label' : '4가지 식사원칙',
+            'url' : 'https://m.post.naver.com/viewer/postView.nhn?volumeNo=10196423&memberNo=23778630&navigationType=push'
+        },
     },
     'keyboard' : {
         'type' : 'buttons',
@@ -41,11 +41,12 @@ diet_info = {
 clinic_info = {
     'message' : {
         'text' : """잘 생각했다냥!
-뚱냥이보다 잘 하는 닝겐이 있는데 소개시켜줄테니 한 번 찾아 가보라냥!~!"""
-    },
-    'message_button' : {
-        'label' : '백병원식이장애클리닉',
-        'url' : 'http://www.paik.ac.kr/bh/da/jin/eatingclinic/sub01.htm'
+뚱냥이보다 잘 하는 닝겐이 있는데 소개시켜줄테니 한 번 찾아 가보라냥!~!""",
+        
+        'message_button' : {
+            'label' : '백병원식이장애클리닉',
+            'url' : 'http://www.paik.ac.kr/bh/da/jin/eatingclinic/sub01.htm'
+        },
     },
     'keyboard' : {
         'type' : 'buttons',
