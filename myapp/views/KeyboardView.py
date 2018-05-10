@@ -8,7 +8,7 @@ import json
 def on_init(request):
     return {
         'type' : 'buttons',
-        'buttons' : [request.JSON['user_key']]
+        'buttons' : ['1', '2', '3']
     }
 
 @bot
@@ -17,13 +17,7 @@ def on_message(request):
     types = request.JSON['type']
     content = request.JSON['content']
     return {
-        'message' : user_key + '님 환영합니다.',
-        'keyboard' : {
-            'type' : 'buttons',
-            'buttons' : [
-                '1', '2', '3',
-            ]
-        }
+        'message' : '{}님 환영합니다.'.format(user_key)
     }
 
 @bot
