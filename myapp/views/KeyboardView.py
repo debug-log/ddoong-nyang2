@@ -9,6 +9,8 @@ buttons = ['오늘 식단좀 추천 해주라!',
              '식습관 건강 테스트를 해보고 싶어',
              '나 병원에 가보려고해!!']
 
+button_yes_or_no = ['네', '아니오']
+
 food_list = ["""오늘 점심은 "의료원 종합관"에서 먹는 게 좋다냥~
 나만 믿고 마음껏 먹으라냥!!
 
@@ -18,6 +20,19 @@ food_list = ["""오늘 점심은 "의료원 종합관"에서 먹는 게 좋다�
 해초무침
 쌀밥
 별미김치"""]
+
+poksik_list = """
+    1. 항상 본인의 몸무게에 대한 스트레스가 있는 편이다
+    2. 간식이나 식사를 하고나면 자책감 또는 불쾌감이 든다
+    3. 배가 부르더라도 끝까지 먹어 치우고 만다
+    4. 다이어트와 폭식을 반복했던 적이 있다
+    5. 혼자 먹는 편이 훨씬 편하다
+    6. 다이어트전보다 오히려 체중이 늘어버렸다
+    7. 남들보다 많이 먹는 편이고 뭘먹을까?도 자주 생각하는 편이다
+
+    4개 이상 해당하면 폭식증을 의심해봐야 한다냥"""
+]
+
 
 diet_info = {
     'message' : {
@@ -54,6 +69,17 @@ clinic_info = {
     }
 }
 
+def poksik_test():
+    return {
+        'message' : {
+            'text' : poksik_list[0]
+        },
+        'keyboard' : {
+            'type' : 'buttons',
+            'buttons' : buttons
+        }
+    }
+
 @bot
 def on_init(request):
     return {
@@ -81,6 +107,8 @@ def on_message(request):
         return diet_info
     elif '병원' in content:
         return clinic_info
+    elif '테스트' in content:
+        return poksik_test()
     else:
         return {
             'message' : {
