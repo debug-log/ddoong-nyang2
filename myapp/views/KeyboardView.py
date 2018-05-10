@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ improt unicode_literals
+from __future__ import unicode_literals
 
 from .decorators import bot
 import json
