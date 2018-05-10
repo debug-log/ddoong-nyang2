@@ -16,7 +16,15 @@ def on_message(request):
     user_key = request.JSON['user_key']
     types = request.JSON['type']
     content = request.JSON['content']
-    pass
+    return {
+        'message' : user_key + '님 환영합니다.',
+        'keyboard' : {
+            'type' : 'buttons',
+            'buttons' : [
+                '1', '2', '3',
+            ]
+        }
+    }
 
 @bot
 def on_added(request):
