@@ -1,26 +1,32 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+# -*- coding: utf-8 -*-
+from __future__ improt unicode_literals
+
+from .decorators import bot
 import json
 
-def keyboard(request):
-
-    return JsonResponse({
+@bot
+def on_init(request):
+    return {
         'type' : 'buttons',
-        'buttons' : ['상록원', '그루터기', '아리수', '기숙사식당', '교직원식당']
-    })
+        'buttons' : ['시작하기']
+    }
 
-@csrf_exempt
-def message(request):
-        message = ((request.body).decode('utf-8'))
-        return_json_str = json.loads(message)
-        return_str = return_json_str['content']
- 
-        return JsonResponse({
-                'message': {
-                        'text': "you type "+return_str+"!"
-                },
-                'keyboard': {
-                        'type': 'buttons',
-        				'buttons' : ['상록원', '그루터기', '아리수', '기숙사식당', '교직원식당']
-                }
-        })
+@bot
+def on_message(request):
+    user_key = request.JSON['user_key']
+    types = request.JSON['type']
+    content = request.JSON['content']
+    pass
+
+@bot
+def on_added(request):
+	pass
+
+@bot
+def on_block(request):
+	if request.method == 'DELETE':
+		pass
+@bot
+def on_leave(request):
+	if request.method == 'DELETE':
+		pass
