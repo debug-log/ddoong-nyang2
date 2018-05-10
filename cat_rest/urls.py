@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^user/$', UserList.as_view()),
     url(r'^user/(?P<pk>[a-z0-9]+)/$', UserDetail.as_view()),
     url(r'^keyboard/', keyboard),
-    url(r'^message', answer),
+    url(r'^message', message),
 ]
