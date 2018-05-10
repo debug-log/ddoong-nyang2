@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 import json, datetime
 
 def keyboard(request):
@@ -9,7 +8,6 @@ def keyboard(request):
         'buttons' : ['상록원', '그루터기', '아리수', '기숙사식당', '교직원식당']
     })
 
-@csrf_exempt
 def answer(request):
     json_str = ((request.body).decode('utf-8'))
     received_json_data = json.loads(json_str)
