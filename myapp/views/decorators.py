@@ -1,10 +1,8 @@
 import json
 from functools import wraps
-from django.contrib.auth import get_user_model
+from myapp.models.User import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
-User = get_user_model()
 
 def bot(view_fn):
 	@wraps(view_fn)
