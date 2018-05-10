@@ -71,7 +71,10 @@ def on_message(request):
             'message' : {
                 'text' : food_list[0]
             },
-            'buttons' : buttons
+            'keyboard' : {
+                'type' : 'buttons',
+                'buttons' : buttons
+            }
         }
     elif '다이어트' in content:
         return diet_info
@@ -82,7 +85,10 @@ def on_message(request):
             'message' : {
                 'text' : '아직 준비 중입니다냥.'
             },
-            'buttons' : buttons
+            'keyboard' : {
+                'type' : 'buttons',
+                'buttons' : buttons
+            }
         }
 
 @bot
