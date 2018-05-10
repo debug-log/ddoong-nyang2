@@ -8,7 +8,7 @@ import json
 def on_init(request):
     return {
         'type' : 'buttons',
-        'buttons' : ['시작하기']
+        'buttons' : [request.JSON['user_key']]
     }
 
 @bot
