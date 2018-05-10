@@ -17,7 +17,9 @@ def on_message(request):
     types = request.JSON['type']
     content = request.JSON['content']
     return {
-        'message' : '안녕하세냥',
+        'message' : {
+            'text' : '{}님 환영합니다.'.format(user_key)
+        }
     }
 
 @bot
