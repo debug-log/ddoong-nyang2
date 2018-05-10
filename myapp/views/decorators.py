@@ -18,9 +18,9 @@ def bot(view_fn):
 		if user_key:
 			username = 'kakao-' + user_key
 			try:
-				request.user = User.objects.get(uesrname = username)
+				request.user = User.objects.get(name = username)
 			except User.DoesNotExist:
-				request.user = User.objects.create_user(username = username)
+				request.user = User.objects.create(name = username)
 
 		return JsonResponse(view_fn(request, *args, **kwargs) or {})
 	return wrap
