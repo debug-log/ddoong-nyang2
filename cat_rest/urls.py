@@ -6,6 +6,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^user/$', UserList.as_view()),
     url(r'^user/(?P<pk>[a-z0-9]+)/$', UserDetail.as_view()),
+    url(r'^dietinfo/$', DietInfoList.as_view()),
+    url(r'^dietinfo/(?P<pk>[a-z0-9]+)/$', DietInfoDetail.as_view()),
     url(r'^keyboard/', on_init),
     url(r'^message', on_message),
     url(r'^friend', on_added),

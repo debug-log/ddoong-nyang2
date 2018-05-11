@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from myapp.models.DietInfo import DietInfo
 
 from .decorators import bot
-import json
+import json, random
 
 buttons = ['오늘 식단좀 추천 해주라!',
              '건강한 다이어트 정보가 필요해..!',
@@ -43,24 +44,43 @@ geosik_list = """
 위 항목 중 3개 이상 해당하면 거식증을 의심해봐야 한다냥"""
 
 
-diet_info = {
-    'message' : {
-        'text' : '이 글 읽어보고 오라냥!',
-        'photo' : {
-            'url' : 'https://post-phinf.pstatic.net/MjAxNzEwMjVfMTc0/MDAxNTA4ODk1NjI0NTI4.mySS4cf2tnxc4xm_-G4K_z9CjXb_aiJtyli0oz-G1XAg.-d1LGcD14o-bCIwx64z3WGiATk21u9cQxLC_yVGyoCgg.JPEG/image_1021621591508895612193.jpg?type=w1200',
-            'width' : 640,
-            'height' : 480
-        },
-        'message_button' : {
-            'label' : '4가지 식사원칙',
-            'url' : 'https://m.post.naver.com/viewer/postView.nhn?volumeNo=10196423&memberNo=23778630&navigationType=push'
-        },
-    },
-    'keyboard' : {
-        'type' : 'buttons',
-        'buttons' : buttons
-    }
-}
+def diet_info(info):
+    if info.types == 'photo':
+        return
+        {
+            'message' : {
+                'text' : info.text,
+                'photo' : {
+                    'url' : info.photo_url,
+                    'width' : 640,
+                    'height' : 480
+                },
+                'message_button' : {
+                    'label' : info.button_label,
+                    'url' : info.button_url,
+                },
+            },
+            'keyboard' : {
+                'type' : 'buttons',
+                'buttons' : buttons
+            }
+        }
+    else:
+        return
+        {
+            'message' : {
+                'text' : info.text,
+                'photo' : {
+                    'url' : info.photo_url,
+                    'width' : 640,
+                    'height' : 480
+                },
+            },
+            'keyboard' : {
+                'type' : 'buttons',
+                'buttons' : buttons
+            }
+        }
 
 clinic_info = {
     'message' : {
@@ -124,7 +144,9 @@ def on_message(request):
             }
         }
     elif '다이어트' in content:
-        return diet_info
+        count = DietInfo.objects.count()
+        randIndex = random.randrange(count)
+        return diet_info(DietInfo.objects.all()[randIndex])
     elif '병원' in content:
         return clinic_info
     elif '테스트' in content:
