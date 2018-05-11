@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from myapp.models.DietInfo import DietInfo
+from django.http import JsonResponse
 
 from .decorators import bot
 import json, random
@@ -46,8 +47,7 @@ geosik_list = """
 
 def diet_info(info):
     if info.types == 'photo':
-        return
-        {
+        return JsonResponse({
             'message' : {
                 'text' : info.text,
                 'photo' : {
@@ -64,10 +64,9 @@ def diet_info(info):
                 'type' : 'buttons',
                 'buttons' : buttons
             }
-        }
+        })        
     else:
-        return
-        {
+        return JsonResponse({
             'message' : {
                 'text' : info.text,
                 'photo' : {
@@ -80,7 +79,7 @@ def diet_info(info):
                 'type' : 'buttons',
                 'buttons' : buttons
             }
-        }
+        })        
 
 clinic_info = {
     'message' : {
