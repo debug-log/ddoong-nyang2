@@ -47,7 +47,7 @@ geosik_list = """
 
 def diet_info(info):
     if info.types == 'photo':
-        return JsonResponse({
+        return {
             'message' : {
                 'text' : info.text,
                 'photo' : {
@@ -64,9 +64,9 @@ def diet_info(info):
                 'type' : 'buttons',
                 'buttons' : buttons
             }
-        })        
+        }    
     else:
-        return JsonResponse({
+        return {
             'message' : {
                 'text' : info.text,
                 'photo' : {
@@ -79,7 +79,7 @@ def diet_info(info):
                 'type' : 'buttons',
                 'buttons' : buttons
             }
-        })        
+        }   
 
 clinic_info = {
     'message' : {
