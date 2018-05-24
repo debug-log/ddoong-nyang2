@@ -125,13 +125,14 @@ def on_init(request):
 
 @bot
 def on_message(request):
-    user_key = request.JSON['user_key']
+    user_key = 'kakao-' + request.JSON['user_key']
     types = request.JSON['type']
     content = request.JSON['content']
 
     user = User.objects.get_or_create(name = user_key)[0]
     if user.last_request != content:
         user.last_request = content
+        user.save()
 
     if '오늘 식단좀 추천 해주라' in content:
         return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
