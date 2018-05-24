@@ -36,6 +36,13 @@ geosik_list = """1. 주변사람들은 자신을 너무 말랐다고 하지만 �
 
 위 항목 중 3개 이상 해당하면 거식증을 의심해봐야 한다냥"""
 
+def user_append_content(user, content):
+    if not user.content:
+        user.content = content
+    else:
+        user.content += (',' + content)
+    user.save()
+
 def depth_button(text, buttons):
     return {
         'message' : {
@@ -46,6 +53,40 @@ def depth_button(text, buttons):
             'buttons' : buttons
         }
     }
+
+def recommend_food(content):
+    params = content.split(',')
+    if len(params) < 2:
+        return '해당하는 음식이 없습니다.'
+    elif len(params) == 2:
+        entry = FoodInfo.objects.filter(category_big = params[0], category_middle = params[1])
+    elif len(params) == 3:
+        entry = FoodInfo.objects.filter(category_big = params[0], category_middle = params[1], category_small = params[2])
+    
+    count = entry.count()
+    randIndex = random.randrange(count)
+    food = entry[randIndex]
+
+    rest_name = food.restId.name
+    rest = RestaurantInfo.objects.get(pk = rest_name)
+
+    ret1 = """오늘의 추천식단은 [{0}]!!
+    가격은 {1}원이고, {2}에서 사먹을 수 있다냥!
+
+    평일 운영시간은
+    {3}
+    이고,
+    """.format(food.name, food.price, rest.name, rest.text_date_day)
+
+    if rest.text_date_holiday == '.':
+        ret2 = "휴일에는 운영하지 않는 다냥"
+    else:
+        ret2 = """휴일 운영시간은
+        {0}
+        이다냥!""".format(rest.text_date_holiday)
+
+    return ret1 + ret2
+
 
 def not_yet():
     return {
@@ -138,26 +179,29 @@ def on_message(request):
     if '오늘 식단좀 추천 해주라' in content:
         return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
     elif content in category_big_list:
-        if not user.content:
-            user.content = content
-        else:
-            user.content += content
-        user.save()
+        user_append_content(user, content)
 
         entry = FoodInfo.objects.filter(category_big = content)
         next_food_list = list(set(entry.values_list('category_middle', flat=True)))
 
         return depth_button('다양한 음식들이 마련되어 있다냥!', next_food_list)
     elif content in category_middle_list:
-        if not user.content:
-            user.content = content
-        else:
-            user.content += (',' + content)
-        user.save()
+        user_append_content(user, content)
+
         if content in ['스파게티', '그라탕']:
-            return depth_button('어떤 소스를 원하냥!!?', category_small_list)
+            user_append_content(user, content)
+            entry = FoodInfo.objects.filter(category_middle = content)
+            next_food_list = list(set(entry.values_list('category_small', flat=True)))
+
+            return depth_button('어떤 소스를 원하냥!!?', next_food_list)
         else:
-            return not_yet()
+            return depth_button(recommend_food(user.content), buttons)
+    elif content in category_small_list:
+        user_append_content(user, content)
+
+        return depth_button(recommend_food(user.content), buttons)
+
+
     elif '다이어트' in content:
         count = DietInfo.objects.count()
         randIndex = random.randrange(count)
