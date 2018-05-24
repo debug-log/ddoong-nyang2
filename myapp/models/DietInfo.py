@@ -2,8 +2,8 @@ from django.db import models
 
 class DietInfo(models.Model):
     INFOTYPE = (
-        ('photo', 'photo'),
-        ('text', 'text'),
+        ('식단', '식단'),
+        ('운동', '운동'),
     )
 
     text = models.TextField(null=False)

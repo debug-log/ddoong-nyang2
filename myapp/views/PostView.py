@@ -10,6 +10,7 @@ def add_food(request):
         data = request.body.decode('utf-8')
         data = json.loads(data)
 
+        print(data)
         restInfo = RestaurantInfo.objects.get(pk=data['restid'])
         new_Food = FoodInfo(restId = restInfo,
             name = data['name'],
@@ -18,5 +19,6 @@ def add_food(request):
             category_middle = data['category_middle'],
             category_small = data['category_small'])
         new_Food.save()
+
         return JsonResponse({"created" : data}, safe = False)
     
