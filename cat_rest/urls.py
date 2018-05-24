@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^message', on_message),
     url(r'^friend', on_added),
     url(r'^friend/(?P<user_key>[\w-]+)$', on_block),
-    url(r'^chat_room/(?P<user_key>[\w-]+)$', on_leave),    
+    url(r'^chat_room/(?P<user_key>[\w-]+)$', on_leave),
+    url(r'^add_food/', add_food), 
 ]
