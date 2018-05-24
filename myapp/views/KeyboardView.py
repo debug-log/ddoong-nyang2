@@ -142,12 +142,18 @@ def on_message(request):
             user.content = content
         else:
             user.content += content
-        return depth_button('다양한 음식들이 마련되어 있다냥!', category_middle_list)
+        user.save()
+
+        entry = FoodInfo.objects.filter(category_big = content)
+        next_food_list = list(set(entry.values_list('category_middle', flat=True)))
+
+        return depth_button('다양한 음식들이 마련되어 있다냥!', next_food_list)
     elif content in category_middle_list:
         if not user.content:
             user.content = content
         else:
             user.content += (',' + content)
+        user.save()
         if content in ['스파게티', '그라탕']:
             return depth_button('어떤 소스를 원하냥!!?', category_small_list)
         else:
