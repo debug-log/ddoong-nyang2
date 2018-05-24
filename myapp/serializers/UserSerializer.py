@@ -4,7 +4,7 @@ from myapp.models.User import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('name', 'created_date',)
+        fields = ('name', 'last_request', 'created_date',)
 
     def __str__(self):
         return self.name
