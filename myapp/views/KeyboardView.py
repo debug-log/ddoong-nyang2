@@ -44,40 +44,24 @@ geosik_list = """1. 주변사람들은 자신을 너무 말랐다고 하지만 �
 
 
 def diet_info(info):
-    if info.types == 'photo':
-        return {
-            'message' : {
-                'text' : info.text,
-                'photo' : {
-                    'url' : info.photo_url,
-                    'width' : 640,
-                    'height' : 480
-                },
-                'message_button' : {
-                    'label' : info.button_label,
-                    'url' : info.button_url,
-                },
+    return {
+        'message' : {
+            'text' : info.text,
+            'photo' : {
+                'url' : info.photo_url,
+                'width' : 640,
+                'height' : 480
             },
-            'keyboard' : {
-                'type' : 'buttons',
-                'buttons' : buttons
-            }
-        }    
-    else:
-        return {
-            'message' : {
-                'text' : info.text,
-                'photo' : {
-                    'url' : info.photo_url,
-                    'width' : 640,
-                    'height' : 480
-                },
+            'message_button' : {
+                'label' : info.button_label,
+                'url' : info.button_url,
             },
-            'keyboard' : {
-                'type' : 'buttons',
-                'buttons' : buttons
-            }
-        }   
+        },
+        'keyboard' : {
+            'type' : 'buttons',
+            'buttons' : buttons
+        }
+    }
 
 clinic_info = {
     'message' : {
