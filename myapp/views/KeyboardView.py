@@ -129,11 +129,8 @@ def on_message(request):
     types = request.JSON['type']
     content = request.JSON['content']
 
-    try:
-        user = User.objects.get(pk=user_key)
-        if user.last_request != content:
-            user.last_request = content
-    except:
+    user = User.objects.get(name=user_key)
+    if user.last_request != content:
         user.last_request = content
 
     if '오늘 식단좀 추천 해주라' in content:
