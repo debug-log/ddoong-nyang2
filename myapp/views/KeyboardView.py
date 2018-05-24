@@ -129,7 +129,7 @@ def on_message(request):
     types = request.JSON['type']
     content = request.JSON['content']
 
-    user[0] = User.objects.get_or_create(name = user_key)
+    user = User.objects.get_or_create(name = user_key)[0]
     if user.last_request != content:
         user.last_request = content
 
