@@ -138,10 +138,16 @@ def on_message(request):
     if '오늘 식단좀 추천 해주라' in content:
         return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
     elif content in category_big_list:
-        user.content += content
+        if not user.content:
+            user.content = content
+        else:
+            user.content += content
         return depth_button('다양한 음식들이 마련되어 있다냥!', category_middle_list)
     elif content in category_middle_list:
-        user.content += ',' + content
+        if not user.content:
+            user.content = content
+        else:
+            user.content += (',' + content)
         if content in ['스파게티', '그라탕']:
             return depth_button('어떤 소스를 원하냥!!?', category_small_list)
         else:
