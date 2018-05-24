@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from myapp.models.DietInfo import DietInfo
+from myapp.models import *
 from django.http import JsonResponse
 
 from .decorators import bot
@@ -11,17 +11,11 @@ buttons = ['오늘 식단좀 추천 해주라!',
              '식습관 건강 테스트를 해보고 싶어',
              '나 병원에 가보려고해!!']
 
+category_big_list = [x[0] for x in FoodInfo.CATEGORY_BIG]
+category_middle_list = [x[0] for x in FoodInfo.CATEGORY_MIDDLE]
+category_small_list = [x[0] for x in FoodInfo.CATEGORY_SMALL if x[0] is not 'NONE']
+
 button_test = ['거식증 자가진단', '폭식증 자가진단']
-
-food_list = ["""오늘 점심은 "의료원 종합관"에서 먹는 게 좋다냥~
-나만 믿고 마음껏 먹으라냥!!
-
-(뚝)참치김치찌개
-분홍소세지전*케찹
-팽이버섯야채복음
-해초무침
-쌀밥
-별미김치"""]
 
 poksik_list = """1. 항상 본인의 몸무게에 대한 스트레스가 있는 편이다
 2. 간식이나 식사를 하고나면 자책감 또는 불쾌감이 든다
@@ -42,6 +36,27 @@ geosik_list = """1. 주변사람들은 자신을 너무 말랐다고 하지만 �
 
 위 항목 중 3개 이상 해당하면 거식증을 의심해봐야 한다냥"""
 
+def depth_button(text, buttons):
+    return {
+        'message' : {
+                'text' : text
+            },
+        'keyboard' : {
+            'type' : 'buttons',
+            'buttons' : buttons
+        }
+    }
+
+def not_yet():
+    return {
+        'message' : {
+            'text' : '아직 준비 중입니다냥.'
+        },
+        'keyboard' : {
+            'type' : 'buttons',
+            'buttons' : buttons
+        }
+    }
 
 def diet_info(info):
     return {
@@ -114,16 +129,15 @@ def on_message(request):
     types = request.JSON['type']
     content = request.JSON['content']
 
-    if '식단' in content:
-        return {
-            'message' : {
-                'text' : food_list[0]
-            },
-            'keyboard' : {
-                'type' : 'buttons',
-                'buttons' : buttons
-            }
-        }
+    if '오늘 식단좀 추천 해주라' in content:
+        return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
+    elif content in category_big_list:
+        return depth_button('다양한 음식들이 마련되어 있다냥!', category_middle_list)
+    elif content in category_middle_list:
+        if content in ['스파게티', '그라탕']:
+            return depth_button('어떤 소스를 원하냥!!?', category_small_list)
+        else:
+            return not_yet()
     elif '다이어트' in content:
         count = DietInfo.objects.count()
         randIndex = random.randrange(count)
@@ -145,15 +159,7 @@ def on_message(request):
     elif '거식증' in content:
         return geosik_test
     else:
-        return {
-            'message' : {
-                'text' : '아직 준비 중입니다냥.'
-            },
-            'keyboard' : {
-                'type' : 'buttons',
-                'buttons' : buttons
-            }
-        }
+        return not_yet()
 
 @bot
 def on_added(request):
