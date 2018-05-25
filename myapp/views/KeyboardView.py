@@ -6,10 +6,10 @@ from django.http import JsonResponse
 from .decorators import bot
 import json, random
 
-buttons = ['오늘 식단좀 추천 해주라!',
+buttons = ['식단좀 추천 해주라!',
              '건강한 다이어트 정보가 필요해..!',
              '식습관 건강 테스트를 해보고 싶어',
-             '나 병원에 가보려고해!!']
+             '나 증상이 심각한 것 같아 병원에 가볼까?']
 
 category_big_list = [x[0] for x in FoodInfo.CATEGORY_BIG]
 category_middle_list = [x[0] for x in FoodInfo.CATEGORY_MIDDLE]
