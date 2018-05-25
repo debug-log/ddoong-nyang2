@@ -215,7 +215,7 @@ def on_message(request):
 
 
     elif '건강한 식습관,운동 정보가 필요해' in content:
-        return depth_button('어떤 정보를 알려줄까냥? 요일마다 다른 정보를 알려주겠다냥!')
+        return depth_button('어떤 정보를 알려줄까냥? 요일마다 다른 정보를 알려주겠다냥!', button_diet_info)
     elif content in button_diet_info:
         if '식단' in content:
             today = datetime.datetime.today().weekday()
