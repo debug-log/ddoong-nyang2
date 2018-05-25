@@ -43,14 +43,17 @@ def user_append_content(user, content):
         user.content += (',' + content)
     user.save()
 
-def depth_button(text, buttons):
+def depth_button(text, btns):
+    if len(btns) == 0:
+        btns = buttons
+
     return {
         'message' : {
                 'text' : text
             },
         'keyboard' : {
             'type' : 'buttons',
-            'buttons' : buttons
+            'buttons' : btns
         }
     }
 
