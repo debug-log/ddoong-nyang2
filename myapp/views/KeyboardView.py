@@ -195,6 +195,8 @@ def on_message(request):
             user_append_content(user, content)
             entry = FoodInfo.objects.filter(category_middle = content)
             next_food_list = list(set(entry.values_list('category_small', flat=True)))
+            if 'NONE' in next_food_list:
+                next_food_list.remove('NONE')
 
             return depth_button('어떤 소스를 원하냥!!?', next_food_list)
         else:
