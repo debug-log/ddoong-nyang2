@@ -219,10 +219,10 @@ def on_message(request):
     elif content in button_diet_info:
         if '식단' in content:
             today = datetime.datetime.today().weekday()
-            return diet_info(DietInfo.object.filter(types = '식단')[today])
+            return diet_info(DietInfo.objects.filter(types = '식단', day = today)[0])
         else:
             today = datetime.datetime.today().weekday()
-            return diet_info(DietInfo.object.filter(types = '운동')[today])
+            return diet_info(DietInfo.objects.filter(types = '운동', day = today)[0])
 
 
     elif '병원' in content:
