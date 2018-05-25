@@ -8,9 +8,9 @@ class DietInfo(models.Model):
 
     text = models.TextField(null=False)
     types = models.CharField(max_length=20, choices=INFOTYPE)
-    photo_url = models.CharField(max_length=256)
+    photo_url = models.CharField(max_length=1024)
     button_label = models.CharField(max_length=20)
-    button_url = models.CharField(max_length=256)
+    button_url = models.CharField(max_length=1024)
     day = models.IntegerField(null = False, default = 0)
 
     def __str__(self):
