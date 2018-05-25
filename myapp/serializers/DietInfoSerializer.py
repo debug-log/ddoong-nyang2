@@ -4,7 +4,7 @@ from myapp.models.DietInfo import DietInfo
 class DietInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = DietInfo
-        fields = ('text', 'types', 'photo_url', 'button_label', 'button_url', 'date')
+        fields = ('text', 'types', 'photo_url', 'button_label', 'button_url', 'day')
 
     def __str__(self):
         return self.button_label

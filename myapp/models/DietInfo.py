@@ -11,11 +11,11 @@ class DietInfo(models.Model):
     photo_url = models.CharField(max_length=256)
     button_label = models.CharField(max_length=20)
     button_url = models.CharField(max_length=256)
-    date = models.DateTimeField(auto_now_add=True)
+    day = models.IntegerField(null = False)
 
     def __str__(self):
         return self.button_label
 
     class Meta:
-        ordering = ('date',)
+        ordering = ('types',)
 

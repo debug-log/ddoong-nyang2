@@ -6,7 +6,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ['name', 'last_request', 'created_date']
 
 class DietInfoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'types', 'button_label', 'date']
+    list_display = ['id', 'types', 'button_label', 'day']
 
 class RestaurantInfoAdmin(admin.ModelAdmin):
     list_display = ['name', 'text_date_day', 'text_date_holiday']
