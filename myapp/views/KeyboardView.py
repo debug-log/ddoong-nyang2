@@ -5,9 +5,10 @@ from django.http import JsonResponse
 
 from .decorators import bot
 import json, random
+import datetime
 
 buttons = ['식단좀 추천 해주라!',
-             '건강한 다이어트 정보가 필요해..!',
+             '건강한 식습관,운동 정보가 필요해..!',
              '식습관 건강 테스트를 해보고 싶어',
              '나 증상이 심각한 것 같아 병원에 가볼까?']
 
@@ -15,7 +16,11 @@ category_big_list = [x[0] for x in FoodInfo.CATEGORY_BIG]
 category_middle_list = [x[0] for x in FoodInfo.CATEGORY_MIDDLE]
 category_small_list = [x[0] for x in FoodInfo.CATEGORY_SMALL if x[0] is not 'NONE']
 
+button_diet_info = ['오늘의 건강한 식단', '오늘의 건강한 운동 방법']
+
 button_test = ['거식증 자가진단', '폭식증 자가진단']
+
+
 
 poksik_list = """1. 항상 본인의 몸무게에 대한 스트레스가 있는 편이다
 2. 간식이나 식사를 하고나면 자책감 또는 불쾌감이 든다
@@ -209,10 +214,17 @@ def on_message(request):
         return depth_button(recommend_food(user.content), buttons)
 
 
-    elif '다이어트' in content:
-        count = DietInfo.objects.count()
-        randIndex = random.randrange(count)
-        return diet_info(DietInfo.objects.all()[randIndex])
+    elif '건강한 식습관,운동 정보가 필요해' in content:
+        return depth_button('어떤 정보를 알려줄까냥? 요일마다 다른 정보를 알려주겠다냥!')
+    elif content in button_diet_info:
+        if '식단' in content:
+            today = datetime.datetime.today().weekday()
+            return diet_info(DietInfo.object.filter(types = '식단')[today])
+        else:
+            today = datetime.datetime.today().weekday()
+            return diet_info(DietInfo.object.filter(types = '운동')[today])
+
+
     elif '병원' in content:
         return clinic_info
     elif '테스트' in content:
