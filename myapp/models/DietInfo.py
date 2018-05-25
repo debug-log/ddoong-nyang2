@@ -11,7 +11,7 @@ class DietInfo(models.Model):
     photo_url = models.CharField(max_length=256)
     button_label = models.CharField(max_length=20)
     button_url = models.CharField(max_length=256)
-    day = models.IntegerField(null = False)
+    day = models.IntegerField(null = False, default = 0)
 
     def __str__(self):
         return self.button_label
