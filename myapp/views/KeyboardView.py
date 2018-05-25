@@ -195,7 +195,6 @@ def on_message(request):
         user_append_content(user, content)
 
         if content in ['스파게티', '그라탕']:
-            user_append_content(user, content)
             entry = FoodInfo.objects.filter(category_middle = content)
             next_food_list = list(set(entry.values_list('category_small', flat=True)))
             if 'NONE' in next_food_list:
