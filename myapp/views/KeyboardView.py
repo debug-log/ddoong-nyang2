@@ -70,20 +70,23 @@ def recommend_food(content):
     rest_name = food.restId.name
     rest = RestaurantInfo.objects.get(pk = rest_name)
 
-    ret1 = """오늘의 추천식단은 [{0}]!!
-    가격은 {1}원이고, {2}에서 사먹을 수 있다냥!
+    ret1 = """오늘의 추천식단은
+[{0}]!!
 
-    평일 운영시간은
-    {3}
-    이고,
-    """.format(food.name, food.price, rest.name, rest.text_date_day)
+가격은 {1}원이고, {2}에서 사먹을 수 있다냥!
+
+평일 운영시간은
+{3}
+이고,
+
+""".format(food.name, food.price, rest.name, rest.text_date_day)
 
     if rest.text_date_holiday == '.':
         ret2 = "휴일에는 운영하지 않는 다냥"
     else:
         ret2 = """휴일 운영시간은
-        {0}
-        이다냥!""".format(rest.text_date_holiday)
+{0}
+이다냥!""".format(rest.text_date_holiday)
 
     return ret1 + ret2
 
