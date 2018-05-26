@@ -187,7 +187,7 @@ def on_message(request):
         user.content = ''
         user.save()
 
-    if '오늘 식단좀 추천 해주라' in content:
+    if '식단좀 추천 해주라' in content:
         return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
     elif content in category_big_list:
         user_append_content(user, content)
