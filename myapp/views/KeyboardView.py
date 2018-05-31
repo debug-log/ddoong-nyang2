@@ -170,9 +170,6 @@ geosik_test = {
 
 @bot
 def on_init(request):
-    entry = FoodInfo.objects.filter(category_middle = content)
-    next_food_list = list(set(entry.values_list('category_small', flat=True)))
-
     return {
         'type' : 'buttons',
         'buttons' : buttons
