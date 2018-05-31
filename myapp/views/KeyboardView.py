@@ -182,6 +182,13 @@ def on_message(request):
     content = request.JSON['content']
 
     user = User.objects.get_or_create(name = user_key)[0]
+    button_id = Button.objects.get(button_name = content).button_id
+
+    user.last_request = button_id
+    user.save()
+
+    return not_yet()
+
     if (content in buttons) and (user.last_request is not content):
         user.last_request = content
         user.content = ''
