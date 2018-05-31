@@ -14,7 +14,11 @@ class RestaurantInfoAdmin(admin.ModelAdmin):
 class FoodInfoAdmin(admin.ModelAdmin):
     list_display = ['restId', 'name', 'price', 'category_big', 'category_middle', 'category_small']
 
+class ButtonAdmin(admin.ModelAdmin):
+	list_display = ['button_name', 'button_id']
+
 admin.site.register(User, UserAdmin)
 admin.site.register(DietInfo, DietInfoAdmin)
 admin.site.register(RestaurantInfo, RestaurantInfoAdmin)
 admin.site.register(FoodInfo, FoodInfoAdmin)
+admin.site.register(Button, ButtonAdmin)

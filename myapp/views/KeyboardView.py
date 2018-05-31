@@ -2,15 +2,15 @@
 from __future__ import unicode_literals
 from myapp.models import *
 from django.http import JsonResponse
+from django.db.models import F
 
 from .decorators import bot
 import json, random
 import datetime
 
-buttons = ['식단좀 추천 해주라!',
-             '건강한 식습관,운동 정보가 필요해..!',
-             '식습관 건강 테스트를 해보고 싶어',
-             '나 증상이 심각한 것 같아 병원에 가볼까?']
+
+t = Button.objects.annotate(mod = F('button_id')%1000).filter(mod = 0)
+buttons = [item.button_name for item in t]
 
 category_big_list = [x[0] for x in FoodInfo.CATEGORY_BIG]
 category_middle_list = [x[0] for x in FoodInfo.CATEGORY_MIDDLE]
@@ -170,6 +170,9 @@ geosik_test = {
 
 @bot
 def on_init(request):
+    entry = FoodInfo.objects.filter(category_middle = content)
+    next_food_list = list(set(entry.values_list('category_small', flat=True)))
+
     return {
         'type' : 'buttons',
         'buttons' : buttons
