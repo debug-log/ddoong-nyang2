@@ -189,7 +189,7 @@ def on_message(request):
         user.last_request = button.button_id
         user.save()
 
-        return depth_button('', buttons)
+        return depth_button(button.text, buttons)
     except ObjectDoesNotExist:
         return not_yet()
 
