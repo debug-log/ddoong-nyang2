@@ -11,8 +11,7 @@ import datetime
 
 
 t = Button.objects.annotate(mod = F('button_id')%1000).filter(mod = 0)
-#buttons = [item.button_name for item in t]
-buttons = []
+buttons = [item.button_name for item in t]
 
 category_big_list = [x[0] for x in FoodInfo.CATEGORY_BIG]
 category_middle_list = [x[0] for x in FoodInfo.CATEGORY_MIDDLE]
@@ -184,7 +183,7 @@ def on_message(request):
     content = request.JSON['content']
 
     user = User.objects.get_or_create(name = user_key)[0]
-    """try:
+    try:
         button = Button.objects.get(button_name = content)
 
         user.last_request = button.button_id
@@ -192,7 +191,8 @@ def on_message(request):
 
         return depth_button('', buttons)
     except ObjectDoesNotExist:
-        return not_yet()"""
+        return not_yet()
+
     if (content in buttons) and (user.last_request is not content):
         user.last_request = content
         user.content = ''
