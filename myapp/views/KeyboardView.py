@@ -141,7 +141,7 @@ def on_message(request):
     user = User.objects.get_or_create(name = user_key)[0]
     try:
         button = Button.objects.get(button_name = content)
-        button_type = button.id // 1000
+        button_type = button.button_id // 1000
 
         user.last_request = button.button_id
         user.save()
@@ -157,17 +157,16 @@ def on_message(request):
         pass
     elif button_type == 3:
         #do recommend food
-        if button.id == 3000:
+        if button.button_id == 3000:
             recommend_food_items = Button.objects.annotate(val = F('button_id')/1000, mod = F('button_id')%1000).filter(val = 3).exclude(mod = 0)
             recommend_food_buttons = [item.button_name for item in recommend_food_items]
             return depth_button(button.text, recommend_food_buttons)
 
-        elif button.id == 3100:
-            today = datetime.datetime.today().weekday()
+        today = datetime.datetime.today().weekday()
+        elif button.button_id == 3100:
             return diet_info(DietInfo.objects.filter(types = '식단', day = today)[0])
-            
-        elif button.id == 3200:
-            today = datetime.datetime.today().weekday()
+
+        elif button.button_id == 3200:
             return diet_info(DietInfo.objects.filter(types = '운동', day = today)[0])
         else:
             pass
