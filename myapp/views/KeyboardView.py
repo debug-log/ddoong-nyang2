@@ -19,29 +19,6 @@ category_small_list = [x[0] for x in FoodInfo.CATEGORY_SMALL if x[0] is not 'NON
 
 button_diet_info = ['오늘의 건강한 식단', '오늘의 건강한 운동 방법']
 
-button_test = ['거식증 자가진단', '폭식증 자가진단']
-
-
-
-poksik_list = """1. 항상 본인의 몸무게에 대한 스트레스가 있는 편이다
-2. 간식이나 식사를 하고나면 자책감 또는 불쾌감이 든다
-3. 배가 부르더라도 끝까지 먹어 치우고 만다
-4. 다이어트와 폭식을 반복했던 적이 있다
-5. 혼자 먹는 편이 훨씬 편하다
-6. 다이어트전보다 오히려 체중이 늘어버렸다
-7. 남들보다 많이 먹는 편이고 뭘먹을까?도 자주 생각하는 편이다
-
-위 항목 중 4개 이상 해당하면 폭식증을 의심해봐야 한다냥"""
-
-geosik_list = """1. 주변사람들은 자신을 너무 말랐다고 하지만 나는 오히려 너무 몸무게가 많이 나간다고 생각하며, 때로는 내 몸을 증오한다
-2. 식사를 최대한 적게 하려고 노력한다
-3. 식사 후 일부러 구토를 하거나 설사약이나 이뇨제를 다이어트에 사용한다
-4. 지속적으로 굶어 이미 건강상 손상이 나타났다
-5. 음식의 조각을 헤아리거나 잘게 썰어서 먹는다
-6. 음식물의 성분과 칼로리에 지나치게 집착한다
-
-위 항목 중 3개 이상 해당하면 거식증을 의심해봐야 한다냥"""
-
 def user_append_content(user, content):
     if not user.content:
         user.content = content
@@ -148,27 +125,6 @@ clinic_info = {
 }
 
 
-poksik_test = {
-    'message' : {
-        'text' : poksik_list
-    },
-    'keyboard' : {
-        'type' : 'buttons',
-        'buttons' : buttons
-    }
-}
-
-geosik_test = {
-    'message' : {
-        'text' : geosik_list
-    },
-    'keyboard' : {
-        'type' : 'buttons',
-        'buttons' : buttons
-    }
-}
-
-
 @bot
 def on_init(request):
     return {
@@ -185,13 +141,52 @@ def on_message(request):
     user = User.objects.get_or_create(name = user_key)[0]
     try:
         button = Button.objects.get(button_name = content)
+        button_type = button.id // 1000
 
         user.last_request = button.button_id
         user.save()
-
-        return depth_button(button.text, buttons)
+    
     except ObjectDoesNotExist:
         return not_yet()
+
+    if button_type == 1:
+        #do introduce
+        pass
+    elif button_type == 2:
+        #do recommend food
+        pass
+    elif button_type == 3:
+        #do recommend food
+        if button.id == 3000:
+            recommend_food_items = Button.objects.annotate(val = F('button_id')/1000, mod = F('button_id')%1000).filter(val = 3).exclude(mod = 0)
+            recommend_food_buttons = [item.button_name for item in recommend_food_items]
+            return depth_button(button.text, recommend_food_buttons)
+
+        elif button.id == 3100:
+            today = datetime.datetime.today().weekday()
+            return diet_info(DietInfo.objects.filter(types = '식단', day = today)[0])
+            
+        elif button.id == 3200:
+            today = datetime.datetime.today().weekday()
+            return diet_info(DietInfo.objects.filter(types = '운동', day = today)[0])
+        else:
+            pass
+    elif button_type == 4:
+        #do recommend food
+        pass
+    elif button_type == 5:
+        #do recommend food
+        pass
+    elif button_type == 6:
+        #do recommend food
+        pass
+    elif button_type == 7:
+        #do recommend food
+        pass
+    else:
+        return not_yet()
+
+    return depth_button(button.text, buttons)
 
     if (content in buttons) and (user.last_request is not content):
         user.last_request = content
@@ -238,20 +233,6 @@ def on_message(request):
 
     elif '병원' in content:
         return clinic_info
-    elif '테스트' in content:
-        return {
-            'message' : {
-                'text' : '어떤 테스트를 해보고 싶냥?'
-            },
-            'keyboard' : {
-                'type' : 'buttons',
-                'buttons' : button_test
-            }
-        }
-    elif '폭식증' in content:
-        return poksik_test
-    elif '거식증' in content:
-        return geosik_test
     else:
         return not_yet()
 
