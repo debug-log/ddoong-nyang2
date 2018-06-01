@@ -163,7 +163,7 @@ def on_message(request):
             return depth_button(button.text, recommend_food_buttons)
 
         today = datetime.datetime.today().weekday()
-        elif button.button_id == 3100:
+        if button.button_id == 3100:
             return diet_info(DietInfo.objects.filter(types = '식단', day = today)[0])
 
         elif button.button_id == 3200:
