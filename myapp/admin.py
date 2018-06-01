@@ -3,7 +3,7 @@ from myapp.models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['name', 'last_request', 'created_date']
+    list_display = ['name', 'last_request', 'test_score', 'created_date']
 
 class DietInfoAdmin(admin.ModelAdmin):
     list_display = ['id', 'types', 'button_label', 'day']
