@@ -183,7 +183,7 @@ def on_message(request):
             user.test_score += 100
             user.save()
         elif button.button_id == 4300:
-            user.text_score += 1
+            user.test_score += 1
             user.save()
 
         nth = (user.test_score // 100) + (user.test_score % 100) + 1
