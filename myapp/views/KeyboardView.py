@@ -56,25 +56,22 @@ def recommend_food(content):
     rest_name = food.restId.name
     rest = RestaurantInfo.objects.get(pk = rest_name)
 
-    ret1 = """오늘의 추천식단은
-[{0}]!!
+    if rest.text_date_holiday == '.':
+        return TextTable.objects.get(key = 'recommend_food').text.format(food.name, food.price, rest.name, rest.text_date_day)
+    else:
+        return TextTable.objects.get(key = 'recommend_food_holi').text.format(food.name, food.price, rest.name, rest.text_date_day, rest.text_date_holiday)
 
-가격은 {1}원이고, {2}에서 사먹을 수 있다냥!
-
-평일 운영시간은
-{3}
-이고,
-
-""".format(food.name, food.price, rest.name, rest.text_date_day)
+def recommend_random_food():
+    count = FoodInfo.objects.all().count()
+    randIndex = random.randrange(count)
+    food = FoodInfo.objects.all()[randIndex]
+    rest_name = food.restId.name
+    rest = RestaurantInfo.objects.get(pk = rest_name)
 
     if rest.text_date_holiday == '.':
-        ret2 = "휴일에는 운영하지 않는 다냥"
+        return TextTable.objects.get(key = 'recommend_food').text.format(food.name, food.price, rest.name, rest.text_date_day)
     else:
-        ret2 = """휴일 운영시간은
-{0}
-이다냥!""".format(rest.text_date_holiday)
-
-    return ret1 + ret2
+        return TextTable.objects.get(key = 'recommend_food_holi').text.format(food.name, food.price, rest.name, rest.text_date_day, rest.text_date_holiday)
 
 
 def not_yet():
@@ -147,20 +144,58 @@ def on_message(request):
         user.save()
     
     except ObjectDoesNotExist:
-        return not_yet()
+        if user.last_request == 2101:
+            user_append_content(user, content)
+            user.last_request = 2102
+            user.save()
+
+            entry = FoodInfo.objects.filter(category_big = content)
+            next_food_list = list(set(entry.values_list('category_middle', flat=True)))
+
+            return depth_button('다양한 음식들이 마련되어 있다냥!', next_food_list)
+        elif user.last_request == 2102:
+            user_append_content(user, content)
+
+            if content in ['스파게티', '그라탕']:
+                entry = FoodInfo.objects.filter(category_middle = content)
+                next_food_list = list(set(entry.values_list('category_small', flat=True)))
+                if 'NONE' in next_food_list:
+                    next_food_list.remove('NONE')
+
+                return depth_button('어떤 소스를 원하냥!!?', next_food_list)
+            else:
+                return depth_button(recommend_food(user.content), buttons)
+        else:
+            return not_yet()
 
     if button_type == 1:
         #do introduce
         pass
     elif button_type == 2:
         #do recommend food
-        pass
-    elif button_type == 3:
-        #do recommend food
-        if button.button_id == 3000:
+        if button.button_id == 2000:
             recommend_food_items = Button.objects.annotate(val = F('button_id')/1000, mod = F('button_id')%1000).filter(val = 3).exclude(mod = 0)
             recommend_food_buttons = [item.button_name for item in recommend_food_items]
+
+            user.content = ''
+            user.save()
             return depth_button(button.text, recommend_food_buttons)
+
+        if button.button_id == 2100:
+            #category
+            user.last_request == 2101
+            user.save()
+            return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
+        elif button.button_id == 2200:
+            #random
+            return depth_button(recommend_random_food(), buttons)
+
+    elif button_type == 3:
+        #do recommend_diet_info
+        if button.button_id == 3000:
+            recommend_diet_info_items = Button.objects.annotate(val = F('button_id')/1000, mod = F('button_id')%1000).filter(val = 3).exclude(mod = 0)
+            recommend_diet_info_buttons = [item.button_name for item in recommend_diet_info_items]
+            return depth_button(button.text, recommend_diet_info_buttons)
 
         today = datetime.datetime.today().weekday()
         if button.button_id == 3100:
@@ -171,7 +206,7 @@ def on_message(request):
         else:
             pass
     elif button_type == 4:
-        #do recommend food
+        #do self-test
         if button.button_id == 4000:
             user.test_score = 0
             user.save()
@@ -201,13 +236,13 @@ def on_message(request):
             return depth_button(TextTable.objects.get(key = 'test_text_{:02}'.format(nth)).text, button_yes_or_no)
 
     elif button_type == 5:
-        #do recommend food
+        #do dosirak
         pass
     elif button_type == 6:
-        #do recommend food
+        #do counsel
         pass
     elif button_type == 7:
-        #do recommend food
+        #do faq
         pass
     else:
         return not_yet()
