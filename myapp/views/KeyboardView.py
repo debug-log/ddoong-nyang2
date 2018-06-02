@@ -174,7 +174,7 @@ def on_message(request):
     elif button_type == 2:
         #do recommend food
         if button.button_id == 2000:
-            recommend_food_items = Button.objects.annotate(val = F('button_id')/1000, mod = F('button_id')%1000).filter(val = 3).exclude(mod = 0)
+            recommend_food_items = Button.objects.annotate(val = F('button_id')/1000, mod = F('button_id')%1000).filter(val = 2).exclude(mod = 0)
             recommend_food_buttons = [item.button_name for item in recommend_food_items]
 
             user.content = ''
