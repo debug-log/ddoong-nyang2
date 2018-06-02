@@ -183,7 +183,7 @@ def on_message(request):
 
         if button.button_id == 2100:
             #category
-            user.last_request == 2101
+            user.last_request = 2101
             user.save()
             return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
         elif button.button_id == 2200:
