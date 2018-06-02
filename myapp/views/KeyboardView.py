@@ -172,7 +172,23 @@ def on_message(request):
             pass
     elif button_type == 4:
         #do recommend food
-        pass
+        if button.button_id == 4000:
+            user.test_score = 0
+            user.save()
+            return depth_button(button.text, [Button.objects.get(button_id = 4100).button_name])
+
+        button_yes_or_no = [Button.objects.get(button_id = 4200).button_name, Button.objects.get(button_id = 4300).button_name]
+        
+        if button.button_id == 4200:
+            user.test_score += 100
+            user.save()
+        elif button.button_id == 4300:
+            user.text_score += 1
+            user.save()
+
+        nth = (user.test_score // 100) + (user.test_score % 100) + 1
+        return depth_button(TextTable.objects.get(key = 'test_text_{:02}'.format(nth)).text, button_yes_or_no)
+
     elif button_type == 5:
         #do recommend food
         pass
