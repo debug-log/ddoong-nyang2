@@ -187,7 +187,18 @@ def on_message(request):
             user.save()
 
         nth = (user.test_score // 100) + (user.test_score % 100) + 1
-        return depth_button(TextTable.objects.get(key = 'test_text_{:02}'.format(nth)).text, button_yes_or_no)
+
+        if nth == 16:
+            answer_yes = (user.test_score // 100)
+            if answer_yes <= 2:
+                return depth_button(TextTable.objects.get(key = 'test_result_01').text, buttons)
+            elif answer_yes <= 5:
+                return depth_button(TextTable.objects.get(key = 'test_result_02').text, buttons)
+            else:
+                return depth_button(TextTable.objects.get(key = 'test_result_03').text, buttons)               
+
+        else:
+            return depth_button(TextTable.objects.get(key = 'test_text_{:02}'.format(nth)).text, button_yes_or_no)
 
     elif button_type == 5:
         #do recommend food
