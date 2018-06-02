@@ -17,8 +17,12 @@ class FoodInfoAdmin(admin.ModelAdmin):
 class ButtonAdmin(admin.ModelAdmin):
 	list_display = ['button_name', 'button_id']
 
+class TextTableAdmin(admin.ModelAdmin):
+	list_display = ['key', 'text']
+
 admin.site.register(User, UserAdmin)
 admin.site.register(DietInfo, DietInfoAdmin)
 admin.site.register(RestaurantInfo, RestaurantInfoAdmin)
 admin.site.register(FoodInfo, FoodInfoAdmin)
 admin.site.register(Button, ButtonAdmin)
+admin.site.register(TextTable, TextTableAdmin)
