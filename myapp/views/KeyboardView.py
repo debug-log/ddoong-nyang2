@@ -103,12 +103,12 @@ def diet_info(info):
         }
     }
 
-def buy_link(text):
+def buy_link(text, btns):
     return {
         'message' : {
             'text' : text,
             'photo' : {
-                'url' : 'https://www.pythonanywhere.com/user/debuglog/files/home/debuglog/product.jpg',
+                'url' : 'https://lh3.googleusercontent.com/0fLSkaWhPjJFj5EolVTtxqQEF5pLpxT4AmRcMFZxRlFZQr9z6CCmOqoEWZcU5lVRhfKPMAPAQg',
                 'width' : 640,
                 'height' : 480
             },
@@ -119,7 +119,7 @@ def buy_link(text):
         },
         'keyboard' : {
             'type' : 'buttons',
-            'buttons' : buttons
+            'buttons' : btns
         }
     }
 
@@ -255,7 +255,7 @@ def on_message(request):
 
     elif button_type == 5:
         #do dosirak
-        return buy_link(button.text)
+        return buy_link(button.text, buttons)
     elif button_type == 6:
         #do counsel
         pass
