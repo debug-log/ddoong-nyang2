@@ -243,6 +243,10 @@ def on_message(request):
         pass
     elif button_type == 7:
         #do faq
+        faq_items = Button.objects.annotate(val = F('button_id')/1000, mod = F('button_id')%1000).filter(val = 7).exclude(mod = 0)
+        faq_buttons = [item.button_name for item in faq_items]
+
+        return depth_button(button.text, faq_buttons)
         pass
     else:
         return not_yet()
