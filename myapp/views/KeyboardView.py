@@ -17,8 +17,6 @@ category_big_list = [x[0] for x in FoodInfo.CATEGORY_BIG]
 category_middle_list = [x[0] for x in FoodInfo.CATEGORY_MIDDLE]
 category_small_list = [x[0] for x in FoodInfo.CATEGORY_SMALL if x[0] is not 'NONE']
 
-button_diet_info = ['오늘의 건강한 식단', '오늘의 건강한 운동 방법']
-
 def user_append_content(user, content):
     if not user.content:
         user.content = content
@@ -254,54 +252,6 @@ def on_message(request):
         return not_yet()
 
     return depth_button(button.text, buttons)
-
-    if (content in buttons) and (user.last_request is not content):
-        user.last_request = content
-        user.content = ''
-        user.save()
-
-    if '식단좀 추천 해주라' in content:
-        return depth_button('어떤 종류의 음식이 먹고 싶냥?', category_big_list)
-    elif content in category_big_list:
-        user_append_content(user, content)
-
-        entry = FoodInfo.objects.filter(category_big = content)
-        next_food_list = list(set(entry.values_list('category_middle', flat=True)))
-
-        return depth_button('다양한 음식들이 마련되어 있다냥!', next_food_list)
-    elif content in category_middle_list:
-        user_append_content(user, content)
-
-        if content in ['스파게티', '그라탕']:
-            entry = FoodInfo.objects.filter(category_middle = content)
-            next_food_list = list(set(entry.values_list('category_small', flat=True)))
-            if 'NONE' in next_food_list:
-                next_food_list.remove('NONE')
-
-            return depth_button('어떤 소스를 원하냥!!?', next_food_list)
-        else:
-            return depth_button(recommend_food(user.content), buttons)
-    elif content in category_small_list:
-        user_append_content(user, content)
-
-        return depth_button(recommend_food(user.content), buttons)
-
-
-    elif '건강한 식습관,운동 정보가 필요해' in content:
-        return depth_button('어떤 정보를 알려줄까냥? 요일마다 다른 정보를 알려주겠다냥!', button_diet_info)
-    elif content in button_diet_info:
-        if '식단' in content:
-            today = datetime.datetime.today().weekday()
-            return diet_info(DietInfo.objects.filter(types = '식단', day = today)[0])
-        else:
-            today = datetime.datetime.today().weekday()
-            return diet_info(DietInfo.objects.filter(types = '운동', day = today)[0])
-
-
-    elif '병원' in content:
-        return clinic_info
-    else:
-        return not_yet()
 
 @bot
 def on_added(request):
