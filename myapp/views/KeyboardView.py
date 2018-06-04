@@ -103,6 +103,26 @@ def diet_info(info):
         }
     }
 
+def buy_link(text):
+    return {
+        'message' : {
+            'text' : text,
+            'photo' : {
+                'url' : 'https://www.pythonanywhere.com/user/debuglog/files/home/debuglog/product.jpg',
+                'width' : 640,
+                'height' : 480
+            },
+            'message_button' : {
+                'label' : '구매신청 하러가기',
+                'url' : 'https://goo.gl/forms/hLebQrMwDihbfDjs2',
+            },
+        },
+        'keyboard' : {
+            'type' : 'buttons',
+            'buttons' : buttons
+        }
+    }
+
 clinic_info = {
     'message' : {
         'text' : """잘 생각했다냥!
@@ -235,7 +255,7 @@ def on_message(request):
 
     elif button_type == 5:
         #do dosirak
-        pass
+        return buy_link(button.text)
     elif button_type == 6:
         #do counsel
         pass
