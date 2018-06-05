@@ -38,6 +38,21 @@ def depth_button(text, btns):
         }
     }
 
+def message_button(text, label, url, btns):
+    return {
+        'message' : {
+            'text' : text,
+            'message_button' : {
+                'label' : label,
+                'url' : url,
+            },
+        },
+        'keyboard' : {
+            'type' : 'buttons',
+            'buttons' : btns
+        }
+    }
+
 def recommend_food(content):
     params = content.split(',')
     if len(params) < 2:
@@ -258,7 +273,7 @@ def on_message(request):
         return buy_link(button.text, buttons)
     elif button_type == 6:
         #do counsel
-        pass
+        return message_button(button.text, '채팅방 이동하기', 'https://open.kakao.com/o/g2eEZkO', buttons)
     elif button_type == 7:
         #do faq
         if button.button_id == 7000:
